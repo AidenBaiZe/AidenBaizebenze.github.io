@@ -45,6 +45,8 @@ input {
   background: #fbfcfd;
   padding: 20px;
   min-width: 0;
+  height: 100vh;
+  overflow: hidden;
 }
 
 .brand {
@@ -150,10 +152,15 @@ h1 {
 }
 
 .result-list {
+  flex: 1;
+  min-height: 220px;
   display: grid;
+  align-content: start;
   gap: 10px;
-  overflow: auto;
-  padding-right: 4px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-right: 6px;
+  scrollbar-gutter: stable;
 }
 
 .result-item {
@@ -362,7 +369,9 @@ li {
   .sidebar {
     border-right: 0;
     border-bottom: 1px solid var(--line);
+    height: auto;
     max-height: 52vh;
+    overflow: hidden;
   }
 
   .toolbar,

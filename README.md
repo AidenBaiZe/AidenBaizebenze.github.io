@@ -62,7 +62,7 @@ conda run -n nosql python scripts/prepare_dataset.py --zip ~/Downloads/data.zip 
 - 用 TF-IDF + KMeans 做简单聚类；
 - 生成 GitHub Pages 使用的 `web/demo-data.json`。
 
-当前 GitHub Pages 为了加载速度，前端只嵌入 10 条问题的多跳图演示；页面中的 `total records` 显示全量原始数据条数，`indexed records` 显示当前生成 ArangoDB JSONL 时处理的记录数。当前版本已经对全部 192606 条记录生成 ArangoDB JSONL。
+当前 GitHub Pages 为了加载速度，前端只嵌入 100 条问题的多跳图演示；页面中的 `total records` 显示全量原始数据条数，`indexed records` 显示当前生成 ArangoDB JSONL 时处理的记录数。当前版本已经对全部 192606 条记录生成 ArangoDB JSONL。
 
 GitHub 普通 Git 单文件限制为 100MB，因此仓库中较大的 `train.json` 和部分全量 `data/processed/*.jsonl` 文件使用分片保存。克隆后运行：
 
