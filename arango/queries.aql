@@ -1,0 +1,46 @@
+// 1. Keyword retrieval over questions and answers.
+FOR q IN questions
+  FILTER CONTAINS(LOWER(q.question), LOWER(@keyword))
+     OR CONTAINS(LOWER(q.answer), LOWER(@keyword))
+  SORT q.support_count DESC
+  LIMIT 20
+  RETURN {
+    id: q._key,
+    type: q.type,
+    cluster: q.cluster,
+    question: q.question,
+    answer: q.answer
+  }
+
+// 2. Multi-hop reasoning path for one question.
+LET q = DOCUMENT(CONCAT("questions/", @question_key))
+FOR v, e, p IN 1..3 OUTBOUND q
+  question_article, article_sentence, question_sentence, question_answer, question_entity
+  RETURN {
+    vertex: v,
+    edge: e,
+    path: p.vertices[*]._id
+  }
+
+// 3. Supporting facts only.
+FOR s IN OUTBOUND CONCAT("questions/", @question_key) question_sentence
+  SORT s.title, s.sent_id
+  RETURN {
+    title: s.title,
+    sentence_id: s.sent_id,
+    text: s.text
+  }
+
+// 4. Simple cluster summary.
+FOR c IN clusters
+  LET qs = (
+    FOR q IN OUTBOUND c cluster_question
+      COLLECT type = q.type WITH COUNT INTO count
+      RETURN { type, count }
+  )
+  SORT c.size DESC
+  RETURN {
+    cluster: c.name,
+    size: c.size,
+    type_distribution: qs
+  }
