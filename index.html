@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>2WikiMultihopQA ArangoDB Demo</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <aside class="sidebar" aria-label="Question retrieval">
+        <div class="brand">
+          <span class="mark">OCT</span>
+          <div>
+            <h1>2WikiMultihopQA</h1>
+            <p>ArangoDB multi-hop query demo</p>
+          </div>
+        </div>
+
+        <label class="search">
+          <span>检索</span>
+          <input id="searchInput" type="search" placeholder="question / answer / entity" autocomplete="off" />
+        </label>
+
+        <div class="filters" aria-label="Filters">
+          <button class="chip active" data-filter="all">All</button>
+          <button class="chip" data-filter="comparison">Comparison</button>
+          <button class="chip" data-filter="compositional">Compositional</button>
+          <button class="chip" data-filter="inference">Inference</button>
+          <button class="chip" data-filter="bridge_comparison">Bridge comparison</button>
+        </div>
+
+        <div class="meta-grid">
+          <div>
+            <strong id="recordCount">0</strong>
+            <span>records</span>
+          </div>
+          <div>
+            <strong id="nodeCount">0</strong>
+            <span>nodes</span>
+          </div>
+        </div>
+
+        <section class="result-list" id="resultList" aria-label="Retrieved questions"></section>
+      </aside>
+
+      <section class="workspace">
+        <header class="toolbar">
+          <div>
+            <h2 id="questionTitle">选择一个问题查看多跳路径</h2>
+            <p id="answerText">检索结果、证据句、实体关系和答案会在这里联动。</p>
+          </div>
+          <div class="view-switch" role="tablist" aria-label="Views">
+            <button class="active" data-view="graph">Graph</button>
+            <button data-view="evidence">Evidence</button>
+            <button data-view="clusters">Clusters</button>
+          </div>
+        </header>
+
+        <section class="view active" id="graphView" aria-label="Multi-hop graph">
+          <svg id="graphSvg" role="img" aria-label="Reasoning path graph"></svg>
+          <div class="legend">
+            <span><i class="q"></i>Question</span>
+            <span><i class="a"></i>Article</span>
+            <span><i class="s"></i>Sentence</span>
+            <span><i class="e"></i>Entity</span>
+            <span><i class="ans"></i>Answer</span>
+          </div>
+        </section>
+
+        <section class="view" id="evidenceView" aria-label="Supporting facts">
+          <div class="evidence-grid">
+            <div>
+              <h3>Supporting facts</h3>
+              <ol id="supportList"></ol>
+            </div>
+            <div>
+              <h3>Evidence relations</h3>
+              <ol id="relationList"></ol>
+            </div>
+          </div>
+        </section>
+
+        <section class="view" id="clustersView" aria-label="Cluster charts">
+          <div class="chart-panel">
+            <h3>Question type distribution</h3>
+            <div id="typeChart" class="bar-chart"></div>
+          </div>
+          <div class="chart-panel">
+            <h3>TF-IDF cluster distribution</h3>
+            <div id="clusterChart" class="bar-chart"></div>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
