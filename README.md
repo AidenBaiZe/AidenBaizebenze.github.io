@@ -62,6 +62,8 @@ conda run -n nosql python scripts/prepare_dataset.py --zip ~/Downloads/data.zip 
 - 用 TF-IDF + KMeans 做简单聚类；
 - 生成 GitHub Pages 使用的 `web/demo-data.json`。
 
+当前 GitHub Pages 为了加载速度，前端只嵌入 10 条问题的多跳图演示；页面中的 `total records` 显示全量原始数据条数，`indexed records` 显示当前生成 ArangoDB JSONL 时处理的记录数。
+
 如果真实数据还没有下载完成，可以先运行样例验证：
 
 ```bash

@@ -204,7 +204,20 @@ def write_jsonl(path: Path, rows: list[dict[str, Any]]) -> None:
             handle.write(json.dumps(row, ensure_ascii=False) + "\n")
 
 
-def build_outputs(records: list[dict[str, Any]], demo_limit: int, cluster_count: int) -> None:
+def count_source_records(path: Path) -> int:
+    if path.suffix == ".parquet":
+        return len(pd.read_parquet(path, columns=[]))
+    if path.suffix == ".jsonl":
+        with path.open("r", encoding="utf-8") as handle:
+            return sum(1 for line in handle if line.strip())
+    if path.suffix == ".json":
+        with path.open("r", encoding="utf-8") as handle:
+            data = json.load(handle)
+        return len(data)
+    return 0
+
+
+def build_outputs(records: list[dict[str, Any]], demo_limit: int, cluster_count: int, total_records: int | None = None) -> None:
     PROCESSED_DIR.mkdir(parents=True, exist_ok=True)
     labels = assign_clusters(records, cluster_count)
 
@@ -351,7 +364,9 @@ def build_outputs(records: list[dict[str, Any]], demo_limit: int, cluster_count:
             {
                 "dataset": "2WikiMultihopQA",
                 "database": "ArangoDB",
+                "total_records": total_records if total_records is not None else len(records),
                 "generated_from_records": len(records),
+                "demo_question_count": len(demo_records),
                 "questions": demo_records,
                 "nodes": list(demo_nodes.values()),
                 "edges": demo_edges,
@@ -389,6 +404,7 @@ def main() -> None:
             raise SystemExit("No dataset files found. Put data.zip in Downloads or files under OCT/data/raw.")
         records = fallback_records()
     else:
+        total_records = sum(count_source_records(source) for source in sources)
         records = []
         remaining = args.limit
         for source in sources:
@@ -398,7 +414,7 @@ def main() -> None:
             records.extend(loaded)
             remaining = args.limit - len(records)
 
-    build_outputs(records, args.demo_limit, args.clusters)
+    build_outputs(records, args.demo_limit, args.clusters, total_records=locals().get("total_records", len(records)))
     print(f"Prepared {len(records)} records.")
     print(f"Processed files: {PROCESSED_DIR}")
     print(f"Web demo data: {WEB_DATA}")

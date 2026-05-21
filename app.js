@@ -22,6 +22,8 @@ const els = {
   nodeCount: document.querySelector("#nodeCount"),
   questionTitle: document.querySelector("#questionTitle"),
   answerText: document.querySelector("#answerText"),
+  indexedCount: document.querySelector("#indexedCount"),
+  demoCount: document.querySelector("#demoCount"),
   graphSvg: document.querySelector("#graphSvg"),
   supportList: document.querySelector("#supportList"),
   relationList: document.querySelector("#relationList"),
@@ -261,7 +263,9 @@ function render() {
     state.selectedId = questionNodeId(state.data.questions[0]);
   }
   const question = selectedQuestion();
-  els.recordCount.textContent = state.data.generated_from_records;
+  els.recordCount.textContent = state.data.total_records || state.data.generated_from_records;
+  els.indexedCount.textContent = state.data.generated_from_records;
+  els.demoCount.textContent = state.data.demo_question_count || state.data.questions.length;
   els.nodeCount.textContent = state.data.nodes.length;
   renderResults();
   renderHeader(question);

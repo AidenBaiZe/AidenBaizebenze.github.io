@@ -91,7 +91,7 @@ FOR v, e, p IN 1..3 OUTBOUND q
 - 展示 supporting facts 和 evidence relations。
 - 展示问题类型分布和聚类分布柱状图。
 
-网页读取 `web/demo-data.json`。该文件由 `scripts/prepare_dataset.py` 从真实数据和 ArangoDB 建模结果导出，适合 GitHub Pages 静态演示。
+网页读取 `web/demo-data.json`。该文件由 `scripts/prepare_dataset.py` 从真实数据和 ArangoDB 建模结果导出，适合 GitHub Pages 静态演示。由于 GitHub Pages 是静态网页，前端只嵌入少量问题的图结构用于交互演示；原始 `train/dev/test` 全量数据已保存在仓库中，页面同时展示全量原始记录数和当前索引/演示子集规模。
 
 ## 7. 运行流程
 
