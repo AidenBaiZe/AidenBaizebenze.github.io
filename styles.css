@@ -227,16 +227,9 @@ h1 {
   position: relative;
 }
 
-.path-note {
-  margin-bottom: 10px;
-  color: var(--muted);
-  font-size: 13px;
-  line-height: 1.45;
-}
-
 #graphSvg {
   width: 100%;
-  height: calc(100vh - 160px);
+  height: calc(100vh - 132px);
   min-height: 520px;
   border: 1px solid var(--line);
   border-radius: 8px;
