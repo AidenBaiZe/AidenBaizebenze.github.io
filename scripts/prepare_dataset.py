@@ -401,7 +401,7 @@ def main() -> None:
     sources = find_sources()
     if not sources:
         if not args.sample_fallback:
-            raise SystemExit("No dataset files found. Put data.zip in Downloads or files under OCT/data/raw.")
+            raise SystemExit("No dataset files found. Put data.zip in Downloads or files under data/raw.")
         records = fallback_records()
     else:
         total_records = sum(count_source_records(source) for source in sources)

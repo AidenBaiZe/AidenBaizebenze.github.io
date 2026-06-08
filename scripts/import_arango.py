@@ -96,7 +96,7 @@ def main() -> None:
     parser.add_argument("--host", default="http://localhost:8529")
     parser.add_argument("--username", default="root")
     parser.add_argument("--password", default="openSesame")
-    parser.add_argument("--database", default="oct_multihop")
+    parser.add_argument("--database", default="mhqa_arangodb")
     parser.add_argument("--graph", default="reasoning_graph")
     parser.add_argument("--truncate", action="store_true")
     args = parser.parse_args()
