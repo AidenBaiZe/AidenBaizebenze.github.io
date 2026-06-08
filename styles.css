@@ -55,18 +55,6 @@ input {
   gap: 12px;
 }
 
-.mark {
-  display: grid;
-  place-items: center;
-  width: 44px;
-  height: 44px;
-  border-radius: 8px;
-  background: var(--accent);
-  color: white;
-  font-weight: 800;
-  font-size: 14px;
-}
-
 h1,
 h2,
 h3,
