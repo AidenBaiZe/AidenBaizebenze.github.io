@@ -155,23 +155,44 @@ function renderGraph(question) {
   svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
   svg.innerHTML = `
     <defs>
-      <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-        <path d="M 0 0 L 10 5 L 0 10 z" fill="#98a3ae"></path>
+      <marker id="arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#7f91a3"></path>
       </marker>
     </defs>
   `;
+
+  function nodeRadius(node) {
+    return node.group === "question" ? 24 : 17;
+  }
+
+  function edgeEndpoints(source, target) {
+    const dx = target.x - source.x;
+    const dy = target.y - source.y;
+    const distance = Math.max(1, Math.hypot(dx, dy));
+    const ux = dx / distance;
+    const uy = dy / distance;
+    const sourceOffset = nodeRadius(source) + 4;
+    const targetOffset = nodeRadius(target) + 8;
+    return {
+      x1: source.x + ux * sourceOffset,
+      y1: source.y + uy * sourceOffset,
+      x2: target.x - ux * targetOffset,
+      y2: target.y - uy * targetOffset,
+    };
+  }
 
   edges.forEach((edge) => {
     const source = positioned.get(edge.source);
     const target = positioned.get(edge.target);
     if (!source || !target) return;
+    const endpoint = edgeEndpoints(source, target);
     const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
-    line.setAttribute("x1", source.x);
-    line.setAttribute("y1", source.y);
-    line.setAttribute("x2", target.x);
-    line.setAttribute("y2", target.y);
-    line.setAttribute("stroke", "#b4bec8");
-    line.setAttribute("stroke-width", "1.4");
+    line.setAttribute("x1", endpoint.x1);
+    line.setAttribute("y1", endpoint.y1);
+    line.setAttribute("x2", endpoint.x2);
+    line.setAttribute("y2", endpoint.y2);
+    line.setAttribute("stroke", "#9aa9b8");
+    line.setAttribute("stroke-width", "1.7");
     line.setAttribute("marker-end", "url(#arrow)");
     svg.appendChild(line);
 
